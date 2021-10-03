@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Stan",
+    "familyId": "1-2",
+    "familyParentId": "",
+    "gender": "M"
+  },
+  {
+    "id": 2,
+    "name": "Sue",
+    "familyId": "1-2",
+    "familyParentId": "",
+    "gender": "F"
+  }
+]

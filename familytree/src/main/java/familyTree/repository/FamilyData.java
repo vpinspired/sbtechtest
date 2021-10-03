@@ -1,31 +1,60 @@
 package familyTree.repository;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import familyTree.model.FamilyMember;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Repository
 public class FamilyData {
-    public List<FamilyMember> familyMembers = new ArrayList<>();
+    public List<FamilyMember> familyMembers;
 
-    public FamilyData() {
-        // First Gen
-        familyMembers.add(new FamilyMember(1, "Stan", "1-2", null, "M"));
-        familyMembers.add(new FamilyMember(2, "Sue", "1-2", null, "F"));
-        familyMembers.add(new FamilyMember(3,"Bob", "3-4", null, "M"));
-        familyMembers.add(new FamilyMember(4,"Beryl", "3-4", null, "F"));
+    private String filename ="FamilyMemberList.txt";
 
-        // Second Gen
-        familyMembers.add(new FamilyMember(5, "Avis", "5-7", "1-2", "F"));
-        familyMembers.add(new FamilyMember(6,"Bert",  "6-8",  "3-4", "M"));
-        familyMembers.add(new FamilyMember(7, "Tim", "5-7", "1-2", "M"));
-        familyMembers.add(new FamilyMember(8,"Freda",  "6-8",  "3-4", "F"));
+    private List<FamilyMember> getDataFromFile()  {
+        try{
+            String fileData = new String(Files.readAllBytes(Paths.get(filename)));
+            JSONArray arr = new JSONArray(fileData);
+            for(int i = 0; i < arr.length(); i++){
+                try {
+                    FamilyMember fm = new FamilyMember();
+                    fm.setId(Integer.parseInt(arr.getJSONObject(i).getString("id")));
+                    fm.setName(arr.getJSONObject(i).getString("name"));
+                    fm.setFamilyId(arr.getJSONObject(i).getString("familyId"));
+                    fm.setFamilyParentId(arr.getJSONObject(i).getString("familyParentId"));
+                    fm.setGender(arr.getJSONObject(i).getString("gender"));
+                    familyMembers.add(fm);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return familyMembers;
+    }
 
-        // Third Gen
-        familyMembers.add(new FamilyMember(9, "Stanley", "9-10", "5-7", "M"));
-        familyMembers.add(new FamilyMember(10, "Nicky", "9-10", "5-7", "F"));
+    public void saveDataToFile(List<FamilyMember> familyMembersList) throws IOException {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        String jsonString = gson.toJson(familyMembersList);
+        FileWriter f = new FileWriter(filename);
+        f.write(jsonString);
+        f.close();
+    }
+
+    public FamilyData()  {
+        familyMembers = getDataFromFile();
     }
 
     public List<FamilyMember> getFamilyMembers() {

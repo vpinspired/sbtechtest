@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
+
 
 @WebMvcTest(value = FamilyController.class)
 @WithMockUser
@@ -26,9 +28,12 @@ public class APITests {
     private MockMvc mockMvc;
 
     @MockBean
-    private FamilyData familyData;
+    private FamilyData familyData = new FamilyData();
 
     FamilyMember mockMember = new FamilyMember(101, "Bert", "101-102", "10", "M");
+
+    public APITests()  {
+    }
 
     @Test
     public void GetDetails() throws Exception {

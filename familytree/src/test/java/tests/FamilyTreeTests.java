@@ -15,14 +15,14 @@ public class FamilyTreeTests {
 
     @Autowired
     private FamilyData familyData =  new FamilyData();
-
+    private String filename = "testMemberLists.txt";
     public FamilyTreeTests()  {
     }
 
     @Test
-    public void test() throws IOException {
+    public void givenMaleAndFemaleWhenAddedToFamilyTreeThenTwoFamilyMembersExist() throws IOException {
         // Arrange
-        List<FamilyMember> fml = new ArrayList<>();
+        List<FamilyMember> familyMemberList = new ArrayList<>();
 
         FamilyMember familyMemberM = new FamilyMember();
         familyMemberM.setId(1);
@@ -30,7 +30,7 @@ public class FamilyTreeTests {
         familyMemberM.setFamilyParentId("");
         familyMemberM.setFamilyId("1-2");
         familyMemberM.setGender("M");
-        fml.add(familyMemberM);
+        familyMemberList.add(familyMemberM);
 
         FamilyMember familyMemberF = new FamilyMember();
         familyMemberF.setId(2);
@@ -38,14 +38,41 @@ public class FamilyTreeTests {
         familyMemberF.setFamilyParentId("");
         familyMemberF.setFamilyId("1-2");
         familyMemberF.setGender("F");
-        fml.add(familyMemberF);
+        familyMemberList.add(familyMemberF);
 
-        familyData.saveDataToFile(fml);
+        familyData.saveDataToFile(familyMemberList, filename);
 
         // Act
         List<FamilyMember> results = new FamilyData().getFamilyMembers();
 
         // Assert
         assertThat(results.size()).isEqualTo(2);
+    }
+
+
+    @Test
+    public void  givenChildWhenAddedToFamilyTreeThenChildAddedToExistingParents() throws Exception{
+        // Arrange
+        List<FamilyMember> existingMembers = familyData.getFamilyMembers();
+
+        FamilyMember familyMemberChild = new FamilyMember();
+        familyMemberChild.setId(3);
+        familyMemberChild.setName("Avis");
+        familyMemberChild.setFamilyParentId("1-2");
+        familyMemberChild.setFamilyId("");
+        familyMemberChild.setGender("F");
+        existingMembers.add(familyMemberChild);
+
+        familyData.saveDataToFile(existingMembers, filename);
+
+        // Act
+        String maleParent = familyData.getFamilyMember(1).getGender();
+        String femaleParent = familyData.getFamilyMember(2).getGender();
+        List<FamilyMember> results = familyData.getFamilyMembers();
+
+        // Assert
+        assertThat(results.size()).isEqualTo(3);
+        assertThat(maleParent).contains("M");
+        assertThat(femaleParent).contains("F");
     }
 }

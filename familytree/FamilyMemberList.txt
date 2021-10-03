@@ -12,5 +12,33 @@
     "familyId": "1-2",
     "familyParentId": "",
     "gender": "F"
+  },
+  {
+    "id": 5,
+    "name": "Avis",
+    "familyId": "5-7",
+    "familyParentId": "1-2",
+    "gender": "F"
+  },
+  {
+    "id": 7,
+    "name": "Tim",
+    "familyId": "5-7",
+    "familyParentId": "1-2",
+    "gender": "M"
+  },
+  {
+    "id": 9,
+    "name": "Stanley",
+    "familyId": "9-10",
+    "familyParentId": "5-7",
+    "gender": "M"
+  },
+  {
+    "id": 10,
+    "name": "Nicky",
+    "familyId": "9-10",
+    "familyParentId": "5-7",
+    "gender": "F"
   }
 ]

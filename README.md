@@ -1,4 +1,4 @@
-# sbtechtest
+# sbtechtest (also at: sbtechtest/familytree/README.txt)
 
 # familytree
 1              2

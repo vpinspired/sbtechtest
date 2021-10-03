@@ -15,7 +15,7 @@ public class FamilyTreeTests {
 
     @Autowired
     private FamilyData familyData =  new FamilyData();
-    private String filename = "testMemberLists.txt";
+
     public FamilyTreeTests()  {
     }
 
@@ -40,7 +40,7 @@ public class FamilyTreeTests {
         familyMemberF.setGender("F");
         familyMemberList.add(familyMemberF);
 
-        familyData.saveDataToFile(familyMemberList, filename);
+        familyData.saveDataToFile(familyMemberList);
 
         // Act
         List<FamilyMember> results = new FamilyData().getFamilyMembers();
@@ -63,7 +63,7 @@ public class FamilyTreeTests {
         familyMemberChild.setGender("F");
         existingMembers.add(familyMemberChild);
 
-        familyData.saveDataToFile(existingMembers, filename);
+        familyData.saveDataToFile(existingMembers);
 
         // Act
         String maleParent = familyData.getFamilyMember(1).getGender();

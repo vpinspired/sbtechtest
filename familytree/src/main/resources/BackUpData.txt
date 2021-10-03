@@ -62,7 +62,7 @@
     "gender": "M"
   },
   {
-    "id": 10,
+    "id": 10
     "name": "Toby",
     "familyId": "10",
     "familyParentId": "6-7",

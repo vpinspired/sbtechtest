@@ -40,12 +40,13 @@ public class FamilyData {
             }
         }
         catch(Exception ex){
+
             System.out.println(ex.getMessage());
         }
         return familyMembers;
     }
 
-    public void saveDataToFile(List<FamilyMember> familyMembersList, String filename) throws IOException {
+    public void saveDataToFile(List<FamilyMember> familyMembersList) throws IOException {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
@@ -122,17 +123,17 @@ public class FamilyData {
 
     public void addFamilyMember(FamilyMember familyMember) throws IOException {
         familyMembers.add(familyMember);
-        saveDataToFile(familyMembers,filename);
+        saveDataToFile(familyMembers);
     }
 
     public void deleteFamilyMember(int id) throws IOException {
         familyMembers.remove(getFamilyMember(id));
-        saveDataToFile(familyMembers, filename);
+        saveDataToFile(familyMembers);
     }
 
     public void updateFamilyMember(FamilyMember fm) throws IOException {
         int index = familyMembers.indexOf(fm.getId());
         familyMembers.set(index,fm);
-        saveDataToFile(familyMembers, filename);
+        saveDataToFile(familyMembers);
     }
 }
